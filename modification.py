@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class modification():
 
     def getPrice(self, avg_price):
