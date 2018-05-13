@@ -4,8 +4,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtSql import *
 
-from modification import modification
-from searchByAddress import search_by_address
+from base import *
 
 
 
@@ -65,7 +64,7 @@ class SearchWidget(QWidget):
         self.confirmbutton = QPushButton("确认")
         self.confirmbutton.setFixedWidth(60)
         self.confirmbutton.setFixedHeight(35)
-        self.confirmbutton.clicked.connect(self.runSearch)
+        self.confirmbutton.clicked.connect(self.showInfo)
 
         self.val=QLabel('value',self)
 
@@ -101,28 +100,34 @@ class SearchWidget(QWidget):
         Layout.addLayout(v, 1, 0)
         self.show()
 
-    def runSearch(self):
-        address=self.addressLineEdit.text()
-        floor=self.floorLineEdit.text()
-        maxfloor=self.maxfloorLineEdit.text()
-        aspect=self.aspectComboBox.currentText()
-        square=self.squareLineEdit.text()
-        comyear=self.comyearLineEdit.text()
-        list = [address,floor,aspect,square,maxfloor,comyear]
-        search = search_by_address()
-        avg_price = search.run(list)
-        if isinstance(avg_price, str):
-            self.showNotFound()
-        else:
-            modi = modification()
-            expected_price = modi.run(avg_price, list)
-            # expected_price = avg_price
 
-            price = float('%.4f' % expected_price)
-            self.val.setText(str(price) + "万")
-            self.val.adjustSize()
-
+    def showInfo(self):
+        base0 = base(self.getElements())
+        self.val.setText(str(base0.getPrice()))
+        self.val.adjustSize()
+        self.showLists(base0.get3Houses())
         return
+
+    def getElements(self):
+        #
+        # Inspect every input element here! Make it valid.
+        # Some notifications to be shown.
+        #
+        address = self.addressLineEdit.text()
+        floor = self.floorLineEdit.text()
+        maxfloor = self.maxfloorLineEdit.text()
+        aspect = self.aspectComboBox.currentText()
+        square = self.squareLineEdit.text()
+        comyear = self.comyearLineEdit.text()
+        return [address, floor, aspect, square, maxfloor, comyear]
+
+    def showLists(self,ThreeLists):
+        #
+        # Show THREE Houses(type: List) on UI here( ->showInfo(self) ).
+        # List structure: [address, floor, aspect, square, maxfloor, comyear]
+        #
+        print(ThreeLists)
+
 
 
 if __name__ == "__main__":

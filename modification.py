@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
 
 class modification():
-
-    def getPrice(self, avg_price):
+    def __init__(self,avg_price,list):
         self.avg_price = avg_price
-
-    def getInfo(self, list):
         self.info = list
 
-    def run(self, avg_price, list):
-        self.getPrice(avg_price)
-        self.getInfo(list)
+
+    def run(self):
         self.avg_price = self.modi_direction()
         self.avg_price = self.modi_floor()
         print("avg_price =", self.avg_price)
