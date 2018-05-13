@@ -29,7 +29,7 @@ class search_by_address():
             print(each)
             sum += each[3]
         avg = sum / 5
-        expected = avg * int(square) / 10000
+        expected = float(avg) * float(square) / 10000
 
         if cursor.rownumber == 0:
             print("Result NOT Found!")
@@ -45,4 +45,4 @@ class search_by_address():
 
 if __name__ == '__main__':
     search = search_by_address()
-    search.run(['西藏南路1739弄', '10', '南', '103'])
+    search.run(['西藏南路1739弄', '10', '南', '103','2010'])
