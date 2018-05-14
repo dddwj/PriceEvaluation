@@ -5,16 +5,18 @@ from base import *
 from collections import OrderedDict
 from pyexcel_xls import get_data
 from base import *
-
+import numpy as np
+import matplotlib.pyplot as plt
 
 def read_file():
-    xls_data = get_data(r"standard/JiJia_201711_12.xlsx")
+    xls_data = get_data(r"JiJia_201711_12.xlsx")
     # print ("Get data type:", type(xls_data))
     sheet = xls_data['统计信息']
     notfound = 0
     count = 0
     ratio = 0
     missList = []
+    errorlist = []
     #for each in range(1,len(sheet)):   正式测试的时候, 用这句话来替换
     for each in range(1, 50):
         rawList = sheet[each]
@@ -37,12 +39,13 @@ def read_file():
             print("expected: ", expected_price, "; standard: ", standard_price, "; error ratio: ", error_ratio, ' %');
             print("*****************************\n")
             count += 1
+            errorlist.append(abs(error_ratio))
             ratio += abs(error_ratio)
     # print("*********************")
     # print("Missed:", notfound, "; Get:", count)
     # print("Average Ratio: ", ratio / count)
 
-    file = open("standard/missList.txt", 'w')  # 'a'意思是追加，这样在加了之后就不会覆盖掉源文件中的内容，如果是w则会覆盖。
+    file = open("missList.txt", 'w')  # 'a'意思是追加，这样在加了之后就不会覆盖掉源文件中的内容，如果是w则会覆盖。
     file.write("Missed: %s;" %notfound )
     file.write("Get: %s; \n " %count)
     file.write("Average Ratio: %.2f %%\n" % (float(ratio)/int(count)) )
@@ -52,6 +55,12 @@ def read_file():
         file.write(str(each))
         file.write("\n")
     file.close()
+
+    x = range(0,len(errorlist))
+    y = errorlist
+    plt.figure()
+    plt.plot(x, y)
+    plt.show()
 
 
 def process_address(raw):

@@ -9,6 +9,7 @@ class modification():
     def run(self):
         self.avg_price = self.modi_direction()
         self.avg_price = self.modi_floor()
+        # modify others
         print("avg_price =", self.avg_price)
         return self.avg_price
 
