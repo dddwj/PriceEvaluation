@@ -103,7 +103,11 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-#pyCharm [added by dwj]
+# pyCharm [added by dwj]
 .idea
 .xml
 .iml
+
+# project files
+standard/Result.xls
+standard/missList.xls

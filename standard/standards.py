@@ -4,6 +4,7 @@
 from base import *
 from collections import OrderedDict
 from pyexcel_xls import get_data
+from pyexcel_xls import save_data
 from base import *
 import numpy as np
 import matplotlib.pyplot as plt
@@ -17,6 +18,12 @@ def read_file():
     ratio = 0
     missList = []
     errorlist = []
+    output = OrderedDict()
+    sheet_1 = []
+    row_1_data = ["房源信息", "标准价格", "计算价格", "误差"]  # 每一行的数据
+    sheet_1.append(row_1_data)
+
+
     #for each in range(1,len(sheet)):   正式测试的时候, 用这句话来替换
     for each in range(1, 50):
         rawList = sheet[each]
@@ -35,16 +42,19 @@ def read_file():
             continue;
         else:
             error_ratio = float('%.2f' % (((expected_price - standard_price) / standard_price) * 100))
-            print("*****************************")
-            print("expected: ", expected_price, "; standard: ", standard_price, "; error ratio: ", error_ratio, ' %');
-            print("*****************************\n")
             count += 1
             errorlist.append(abs(error_ratio))
             ratio += abs(error_ratio)
+
+            print("*****************************")
+            print("expected: ", expected_price, "; standard: ", standard_price, "; error ratio: ", error_ratio, ' %');
+            print("*****************************\n")
+            sheet_1.append([str(list),str(standard_price),str(expected_price),str(abs(error_ratio))])
     # print("*********************")
     # print("Missed:", notfound, "; Get:", count)
     # print("Average Ratio: ", ratio / count)
 
+    # (丢失)结果写入txt
     file = open("missList.txt", 'w')  # 'a'意思是追加，这样在加了之后就不会覆盖掉源文件中的内容，如果是w则会覆盖。
     file.write("Missed: %s;" %notfound )
     file.write("Get: %s; \n " %count)
@@ -56,6 +66,15 @@ def read_file():
         file.write("\n")
     file.close()
 
+    # 成功结果写入xls
+    output.update({"Sheet1": sheet_1})  # 添加sheet表
+    save_data("Result.xls", output)
+
+    # 结果用图来呈现
+    # draw_plot(errorlist)
+
+
+def draw_plot(errorlist):
     x = range(0,len(errorlist))
     y = errorlist
     plt.figure()
