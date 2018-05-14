@@ -34,7 +34,7 @@ class search_by_address():
             return "No Result!"
         count = 0
         for each in self.fangYuan:
-            # print(each)
+            print(each)
 
             #
             # modify each !!!
@@ -53,4 +53,4 @@ class search_by_address():
 
 if __name__ == '__main__':
     search = search_by_address()
-    search.run(['西藏南路1739弄', '10', '南', '103','2010'])
+    search.run(['西藏南路1739弄', '10', '南', '103', '34', '2010'])
