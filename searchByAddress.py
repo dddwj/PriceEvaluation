@@ -15,7 +15,10 @@ class search_by_address():
         # print("Connected To Database!")
 
         cursor = conn.cursor()
-        sql = "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201708 where address like %s having result<10.0 order by result asc ;";
+        sql = "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201708 where address like %s having result<10.0 union " \
+              "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201709 where address like %s having result<10.0 union " \
+              "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201710 where address like %s having result<10.0 " \
+              "order by result asc ;";
 
         address = self.Elements[0]
         square = self.Elements[3]
@@ -23,7 +26,7 @@ class search_by_address():
         direction = self.Elements[2]
 
         sum = 0
-        cursor.execute(sql,(square, address+'%'))
+        cursor.execute(sql,(square, address+'%',square, address+'%',square, address+'%'))
         # fangYuan = cursor.fetchall()
         self.fangYuan = cursor.fetchmany(5)
 

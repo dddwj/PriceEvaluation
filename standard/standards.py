@@ -20,11 +20,11 @@ def read_file():
     errorlist = []
     output = OrderedDict()
     sheet_1 = []
-    row_1_data = ["房源信息", "标准价格", "计算价格", "误差"]  # 每一行的数据
+    row_1_data = ["房源信息", "标准价格", "计算价格", "误差","房源1(id,avg,address,floor,direction,square,height,built_year)","房源2","房源3","房源4","房源5"]  # 每一行的数据
     sheet_1.append(row_1_data)
 
 
-    #for each in range(1,len(sheet)):   正式测试的时候, 用这句话来替换
+    # for each in range(1,len(sheet)):   正式测试的时候, 用这句话来替换
     for each in range(1, 50):
         rawList = sheet[each]
         list = [process_address(rawList[0]), rawList[3], "南", rawList[5], rawList[4], rawList[2]]
@@ -33,12 +33,13 @@ def read_file():
 
         base0 = base(list)
         expected_price = base0.getPrice()
+        SearchInformation = base0.getSearchInformation()
 
         if isinstance(expected_price, str):
             print(" ............", list)
             print(expected_price)
             notfound += 1
-            missList.append(list)
+            missList.append([list,standard_price])
             continue;
         else:
             error_ratio = float('%.2f' % (((expected_price - standard_price) / standard_price) * 100))
@@ -49,24 +50,26 @@ def read_file():
             print("*****************************")
             print("expected: ", expected_price, "; standard: ", standard_price, "; error ratio: ", error_ratio, ' %');
             print("*****************************\n")
-            sheet_1.append([str(list),str(standard_price),str(expected_price),str(abs(error_ratio))])
+            sheet_1.append([str(list),str(standard_price),str(expected_price),str(abs(error_ratio)),str(SearchInformation[0]),str(SearchInformation[1]),str(SearchInformation[2]),str(SearchInformation[3]),str(SearchInformation[4])])
     # print("*********************")
     # print("Missed:", notfound, "; Get:", count)
     # print("Average Ratio: ", ratio / count)
 
     # (丢失)结果写入txt
     file = open("missList.txt", 'w')  # 'a'意思是追加，这样在加了之后就不会覆盖掉源文件中的内容，如果是w则会覆盖。
-    file.write("Missed: %s;" %notfound )
-    file.write("Get: %s; \n " %count)
+    file.write("Missed: %s; " %notfound )
+    file.write("Get: %s;\n" %count)
     file.write("Average Ratio: %.2f %%\n" % (float(ratio)/int(count)) )
     file.write("****************************\n")
-    file.write("********Missed List*********\n")
-    for each in missList:
-        file.write(str(each))
-        file.write("\n")
+    # file.write("********Missed List*********\n")
+    # for each in missList:
+    #     file.write(str(each))
+    #     file.write("\n")
     file.close()
 
-    # 成功结果写入xls
+    # 成功&失败结果写入xls
+    for each in missList:
+        sheet_1.append([str(each[0]),str(each[1]),"No Result",None,None,None,None,None,None])
     output.update({"Sheet1": sheet_1})  # 添加sheet表
     save_data("Result.xls", output)
 

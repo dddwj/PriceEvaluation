@@ -4,8 +4,6 @@ import pymysql
 class search_by_disk:
     def __init__(self, diskName):
         self.HousingName = diskName
-    # def __init__(self):
-    #     self.HousingName = "耀江花园"
 
     def __getPlate(self):
         sql = "select PropertyID, plate,HousingName from Property where HousingName like %s;";

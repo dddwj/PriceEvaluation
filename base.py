@@ -35,11 +35,18 @@ class base():
         threeHouses = []
         for count in range(len(self.houses)) :
             if count >= 3:
-                break;
+                break
             # List structure: [address, floor, aspect, square, maxfloor, comyear]
             threeHouses.append([self.houses[count][1],self.houses[count][4],self.houses[count][7],self.houses[count][2],self.houses[count][6],self.houses[count][8]])
         return threeHouses
 
+    def getSearchInformation(self):
+        SearchInformation = [None,None,None,None,None]
+        for count in range(len(self.houses)):
+            if count >=5:
+                break
+            SearchInformation[count] = [self.houses[count][0],self.houses[count][3],self.houses[count][1],self.houses[count][4],self.houses[count][7],self.houses[count][2],self.houses[count][6],self.houses[count][8]]
+        return SearchInformation
 
 
 
