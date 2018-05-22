@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
-
-from base import *
 from collections import OrderedDict
 from pyexcel_xls import get_data
 from pyexcel_xls import save_data
 from base import *
-import numpy as np
 import matplotlib.pyplot as plt
+import re
 
 def read_file():
     xls_data = get_data(r"JiJia_201711_12.xlsx")
@@ -25,7 +23,7 @@ def read_file():
 
 
     # for each in range(1,len(sheet)):   正式测试的时候, 用这句话来替换
-    for each in range(1, 30):
+    for each in range(58,59):
         rawList = sheet[each]
         list = [process_address(rawList[0]), rawList[3], "南", rawList[5], rawList[4], rawList[2]]
 
@@ -87,20 +85,25 @@ def draw_plot(errorlist):
 
 def process_address(raw):
     start = raw.index('区') + 1
-    if raw.find('镇') != -1:
-        start = raw.index('镇') + 1
-
-    nong = raw.find('弄') + 1
-    hao = raw.find('号') + 1
-    if nong > start:
-        end = nong
-    elif hao > start:
-        end = hao
-    elif nong > start and hao > start:
-        end = min(nong, hao)
+    result = re.search(r'(.*)村[0-9]', raw[start:])
+    if         result != None:
+        string = result[0]
+        return string[0:len(string) - 1]
     else:
-        return raw[start:]
-    return raw[start:end]
+        if raw.find('镇') != -1 and raw.index('镇') > 4 :
+            start = raw.index('镇') + 1
+
+        nong = raw.find('弄') + 1
+        hao = raw.find('号') + 1
+        if nong > start:
+            end = nong
+        elif hao > start:
+            end = hao
+        elif nong > start and hao > start:
+            end = min(nong, hao)
+        else:
+            return raw[start:]
+        return raw[start:end]
 
 
 if __name__ == '__main__':
