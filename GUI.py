@@ -76,10 +76,6 @@ class SearchWidget(QWidget):
         self.table.setShowGrid(False)  # 不显示网格线
 
 
-        # def query(self):
-        #     sql =""      #"SELECT address,floor.etc"
-        #     self.queryModel.setQuery(sql)
-        #     return
 
         g.addWidget(self.addressLabel,0,0)
         g.addWidget(self.addressLineEdit,0,1)
@@ -102,17 +98,22 @@ class SearchWidget(QWidget):
 
 
     def showInfo(self):
-        base0 = base(self.getElements())
+        Elements = self.getElements()
+        if Elements[0] == '' or Elements[1]== '' or Elements[3] == '' or Elements[4] == '':
+            reply = QMessageBox.information(self,  # 使用infomation信息框
+                                            "发生错误",
+                                            "地址 楼层 总楼层 面积 不能留空！",
+                                            QMessageBox.Ok)
+            return
+        if Elements[5] == None:
+            Elements[5] == 2000
+        base0 = base(Elements)
         self.val.setText(str(base0.getPrice()))
         self.val.adjustSize()
         self.showLists(base0.get3Houses())
         return
 
     def getElements(self):
-        #
-        # Inspect every input element here! Make it valid.
-        # Some notifications to be shown.
-        #
         address = self.addressLineEdit.text()
         floor = self.floorLineEdit.text()
         maxfloor = self.maxfloorLineEdit.text()

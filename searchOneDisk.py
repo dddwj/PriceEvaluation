@@ -21,13 +21,15 @@ class search_by_disk:
             self.moveOn = False
 
     def __getCoordinates(self):
-        sql = "select NewDiskID, Coordinates from NewDisk where PropertyID = %s;";
+        sql = "select NewDiskID, Coordinates,Longtitude,Latitude from NewDisk where PropertyID = %s;";
         cursor = self.conn.cursor()
         cursor.execute(sql, self.PropertyID)
         temp = cursor.fetchone()
         if cursor.rownumber == 1 :
             self.NewDiskID = temp[0]
             self.Coordinates = temp[1]
+            self.Long = temp[2]
+            self.Lati = temp[3]
         else:
             self.NewDiskID = None
             self.Coordinates = None
@@ -50,19 +52,29 @@ class search_by_disk:
         self.moveOn = True
         self.conn = pymysql.connect(host='101.132.154.2', port=3306, user='housing', passwd='housing', db='housing',
                                charset='utf8')
-        print("Connected To DB")
+        print("Gathering information.... [in searchOneDisk.getElements]")
 
-        if self.moveOn:
-            self.__getPlate()
-        if self.moveOn:
-            self.__getCoordinates()
-        if self.moveOn:
-            self.__getAddress()
-        if not(self.moveOn) :
-            print ("ERROR!")
+
+        self.__getPlate()
+        if not self.moveOn:
+            self.conn.close()
+            print("Cannot get plate!")
+            return
+
+        self.__getCoordinates()
+        if not self.moveOn:
+            self.conn.close()
+            print("Cannot get coordinates!")
+            return
+
+        self.__getAddress()
+        if not self.moveOn:
+            self.conn.close()
+            print("Cannot get Address!")
+            return
 
         self.conn.close()
-        return [self.HousingName, self.Plate, self.RoadLaneNo, self.Coordinates, self.PropertyID, self.NewDiskID]
+        return [self.HousingName, self.Plate, self.RoadLaneNo, self.Coordinates, self.PropertyID, self.NewDiskID,self.Long,self.Lati]
 
 if __name__ == '__main__':
     search = search_by_disk("华理苑")

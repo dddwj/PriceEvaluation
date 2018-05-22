@@ -25,7 +25,7 @@ def read_file():
 
 
     # for each in range(1,len(sheet)):   正式测试的时候, 用这句话来替换
-    for each in range(1, 50):
+    for each in range(1, 30):
         rawList = sheet[each]
         list = [process_address(rawList[0]), rawList[3], "南", rawList[5], rawList[4], rawList[2]]
 

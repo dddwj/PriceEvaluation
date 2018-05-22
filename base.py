@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from modification import modification
-from searchByAddress import search_by_address
+from searchMain import search_by_address
 
 class base():
-    def __init__(self):
-        self.list = ['西藏南路1739弄', '10', '南', '103', '34', '2010']
+    # def __init__(self):
+    #     self.list = ['西藏南路1739弄', '10', '南', '103', '34', '2010']
 
     def __init__(self,list):
         self.list = list
