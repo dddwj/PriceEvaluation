@@ -66,7 +66,14 @@ class SearchWidget(QWidget):
         self.confirmbutton.setFixedHeight(35)
         self.confirmbutton.clicked.connect(self.showInfo)
 
+        self.plateButton = QPushButton("板块估价")
+        self.plateButton.setFixedWidth(120)
+        self.plateButton.setFixedHeight(35)
+        self.plateButton.clicked.connect(self.showInfo2)
+
         self.val=QLabel('value',self)
+
+        self.val2=QLabel('[板块，均价]',self)
 
         # 表格
         self.table = QTableWidget(3, 8)
@@ -90,7 +97,9 @@ class SearchWidget(QWidget):
         g.addWidget(self.comyearLabel,5,0)
         g.addWidget(self.comyearLineEdit,5,1)
         g.addWidget(self.confirmbutton,6,0)
-        g.addWidget(self.val,6,1)
+        g.addWidget(self.val, 6, 1)
+        g.addWidget(self.plateButton,7,0)
+        g.addWidget(self.val2,7,1)
         v.addWidget(self.table)
         Layout.addLayout(g, 0, 0)
         Layout.addLayout(v, 1, 0)
@@ -112,6 +121,12 @@ class SearchWidget(QWidget):
         self.val.adjustSize()
         self.showLists(base0.get3Houses())
         return
+
+    def showInfo2(self):
+        Elements = self.getElements()
+        base0 = base(Elements)
+        self.val2.setText(str(base0.getPlateprice()))
+        self.val2.adjustSize()
 
     def getElements(self):
         address = self.addressLineEdit.text()

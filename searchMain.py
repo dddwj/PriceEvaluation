@@ -30,7 +30,7 @@ class search_by_address():
 
         cursor.execute(sql,(square, address+'%',square, address+'%',square, address+'%',square, address+'%',square, address+'%',built_year))
         self.fangYuan = []
-        temp = cursor.fetchall()
+        temp = cursor.fetchmany(10)
         for each in temp:
             self.fangYuan.append(each)
 

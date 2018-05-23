@@ -2,6 +2,7 @@
 
 from modification import modification
 from searchMain import search_by_address
+from searchPlate import search_plate
 
 class base():
     # def __init__(self):
@@ -30,6 +31,15 @@ class base():
             return price
         else:
             return price
+
+    def getPlateprice(self):
+        sp = search_plate(self.list[0])
+        plate = sp.whichPlate()
+        price = sp.getPlateprice()
+        price = float('%.4f' % price)
+        return [plate, price]
+
+
 
     def get3Houses(self):
         threeHouses = []

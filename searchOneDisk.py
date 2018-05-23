@@ -2,8 +2,11 @@
 import pymysql
 
 class search_by_disk:
-    def __init__(self, diskName):
+    def __init__(self, diskName, address):
         self.HousingName = diskName
+        self.address = address
+        self.conn = pymysql.connect(host='101.132.154.2', port=3306, user='housing', passwd='housing', db='housing',
+                                    charset='utf8')
 
     def __getPlate(self):
         sql = "select PropertyID, plate,HousingName from Property where HousingName like %s;";
@@ -50,8 +53,6 @@ class search_by_disk:
 
     def getElements(self):
         self.moveOn = True
-        self.conn = pymysql.connect(host='101.132.154.2', port=3306, user='housing', passwd='housing', db='housing',
-                               charset='utf8')
         print("Gathering information.... [in searchOneDisk.getElements]")
 
 
@@ -76,6 +77,36 @@ class search_by_disk:
         self.conn.close()
         return [self.HousingName, self.Plate, self.RoadLaneNo, self.Coordinates, self.PropertyID, self.NewDiskID,self.Long,self.Lati]
 
+
+    def whichPlate(self):
+        cursor = self.conn.cursor()
+        sql = "select NewDisk.NewDiskID,RoadLaneNo,NewDiskName " \
+              "from DiskAddress,NewDisk " \
+              "where RoadLaneNo like %s and DiskAddress.NewDiskID = NewDisk.NewDiskID;"
+        cursor.execute(sql,self.address+'%')
+        temp = cursor.fetchone()
+        if  cursor.rownumber == 1 :
+            NewDiskID = temp[0]
+            address = temp[1]
+            Disk = temp[2]
+
+            cursor = self.conn.cursor()
+            sql = "select Plate from Property where Property.HousingName like %s"
+            cursor.execute(sql, Disk+'%')
+            temp = cursor.fetchone()
+            if cursor.rownumber == 1 :
+                return temp[0]
+                # return [Disk,address,NewDiskID]
+            else:
+                print("Cannot Find Plate!")
+                return None
+        else:
+            print("Cannot Find Disk!")
+            return None
+
+
 if __name__ == '__main__':
-    search = search_by_disk("华理苑")
-    print(search.getElements())
+    # search = search_by_disk("华理苑",None)
+    # print(search.getElements())
+    search2 = search_by_disk(None,"西藏南路1739弄")
+    print(search2.whichPlate())
