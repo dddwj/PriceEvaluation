@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from searchOneDisk import search_by_disk
 import pymysql
 
@@ -25,7 +26,7 @@ class search_nearby:
         self.disk = temp[0]
         print("DiskName: ", self.disk)
 
-        sbd = search_by_disk(self.disk)
+        sbd = search_by_disk(self.disk,"")
         diskDetail = sbd.getElements()
         if diskDetail == None:
             self.nearbyAddress.append(self.address)
@@ -42,7 +43,7 @@ class search_nearby:
               "abs(Latitude-%s) as latit, sqrt(pow(abs(Longtitude-%s),2)+pow(abs(Latitude-%s),2)) as distance " \
               "from NewDisk, DiskAddress " \
               "where NewDisk.NewDiskID = DiskAddress.NewDiskID " \
-              "having longt < 90 and latit < 90 " \
+              "having longt < 180 and latit < 180 " \
               "order by distance asc"
 
 

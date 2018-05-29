@@ -23,8 +23,11 @@ def read_file():
 
 
     # for each in range(1,len(sheet)):   正式测试的时候, 用这句话来替换
-    for each in range(58,59):
+    for each in range(200,300):
         rawList = sheet[each]
+        if (rawList[1] != "住宅" ):
+            continue
+
         list = [process_address(rawList[0]), rawList[3], "南", rawList[5], rawList[4], rawList[2]]
 
         standard_price = float(rawList[6])

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pymysql
 from searchOneDisk import search_by_disk
 
