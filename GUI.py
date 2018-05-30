@@ -99,6 +99,8 @@ class SearchWidget(QWidget):
         base0 = base(Elements)
         self.Newwindow = Window2(base0.get5Houses())
         self.Newwindow.show()
+        average_price = base0.getAvg()
+        self.Newwindow.val2.setText("%.2d" % average_price)
         self.close()
         # self.val.setText(str(base0.getPrice()))
         # self.val.adjustSize()
@@ -166,6 +168,7 @@ class Window2(QWidget):
         self.button.clicked.connect(self.showPrice)
 
         self.val=QLabel('value',self)
+        self.val2 = QLabel('value', self)
 
         self.returnbutton = QPushButton("返回")
         self.returnbutton.setFixedWidth(60)
@@ -181,6 +184,7 @@ class Window2(QWidget):
         g.addWidget(tableWidget,2,0)
         v.addWidget(self.button,0,1)
         v.addWidget(self.val,0,2)
+        v.addWidget(self.val2, 1, 2)
         v.addWidget(self.returnbutton,0,3)
         Layout.addLayout(g, 0, 0)
         Layout.addLayout(v, 1, 0)

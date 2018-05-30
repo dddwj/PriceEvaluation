@@ -7,7 +7,7 @@ class search_by_address():
 
     def getValue(self, list):
         self.Elements = list
-        # print("GOT VALUES")
+        print ("Inquiry List:",self.Elements)
 
     def run(self, list):
         self.getValue(list)
@@ -15,12 +15,15 @@ class search_by_address():
         # print("Connected To Database!")
 
         cursor = conn.cursor()
-        sql = "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201706 where address like %s having result<15.0 union " \
-              "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201706 where address like %s having result<15.0 union " \
-              "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201709 where address like %s having result<15.0 union " \
-              "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201708 where address like %s having result<15.0 union " \
-              "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201707 where address like %s having result<15.0 " \
-              "order by abs(built_year-%s), result asc ;";
+        sql = "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201707 where address like %s having result<20.0 union " \
+              "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201708 where address like %s having result<20.0 union " \
+              "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201709 where address like %s having result<20.0 union " \
+              "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201710 where address like %s having result<20.0 union " \
+              "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201711 where address like %s having result<20.0 union " \
+              "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201712 where address like %s having result<20.0 " \
+              "order by result asc, " \
+              "guapai_month desc, "  \
+              "abs(built_year-%s) asc ;";
 
         address = self.Elements[0]
         square = self.Elements[3]
@@ -28,7 +31,7 @@ class search_by_address():
         direction = self.Elements[2]
         built_year = self.Elements[5]
         # cursor.execute(sql,(square, address+'%',built_year));
-        cursor.execute(sql,(square, address+'%',square, address+'%',square, address+'%',square, address+'%',square, address+'%',built_year))
+        cursor.execute(sql,(square, address+'%',square, address+'%',square, address+'%',square, address+'%',square, address+'%',square, address+'%',built_year))
         self.fangYuan = []
         temp = cursor.fetchmany(10)
         for each in temp:
@@ -39,9 +42,10 @@ class search_by_address():
             print("Finding Nearby Disks...")
             sn = search_nearby(address)
             for nearbyAddress in sn.getAddress():
-                cursor.execute(sql,(square, nearbyAddress+'%',square, nearbyAddress+'%',square, nearbyAddress+'%',square, nearbyAddress+'%',square, nearbyAddress+'%',built_year))
+                cursor.execute(sql,(square, nearbyAddress+'%',square, nearbyAddress+'%',square, nearbyAddress+'%',square, nearbyAddress+'%',square, nearbyAddress+'%',square, nearbyAddress+'%',built_year))
                 # cursor.execute(sql,(square, nearbyAddress+'%',built_year))
-                temp = cursor.fetchall()
+                # temp = cursor.fetchall()
+                temp = cursor.fetchmany(2)
                 for each in temp:
                     print("(Nearby):",each)
                     self.fangYuan.append(each)
@@ -56,12 +60,11 @@ class search_by_address():
             else:
                 print("fangYuan Ready for Modification...\n" ,self.fangYuan)
 
-        print("********In Modification********")
+        print("********Similar Houses********")
         sum = 0
         count = 0
         for each in self.fangYuan:
             print(each)
-
             #
             # modify each !!!
             # take average within modified price
@@ -69,6 +72,8 @@ class search_by_address():
             #
             sum += each[3]
             count += 1
+            if count >= 6:
+                break
         avg = float( sum / count )
 
         conn.close()

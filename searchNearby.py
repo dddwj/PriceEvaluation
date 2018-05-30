@@ -43,7 +43,7 @@ class search_nearby:
               "abs(Latitude-%s) as latit, sqrt(pow(abs(Longtitude-%s),2)+pow(abs(Latitude-%s),2)) as distance " \
               "from NewDisk, DiskAddress " \
               "where NewDisk.NewDiskID = DiskAddress.NewDiskID " \
-              "having longt < 180 and latit < 180 " \
+              "having longt < 150 and latit < 150 " \
               "order by distance asc"
 
 

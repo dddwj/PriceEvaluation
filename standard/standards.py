@@ -8,9 +8,11 @@ import matplotlib.pyplot as plt
 import re
 
 def read_file():
-    xls_data = get_data(r"JiJia_201711_12.xlsx")
+    # xls_data = get_data(r"JiJia_201711_12.xlsx")
+    xls_data = get_data(r"楼盘基价_201801.xlsx")
     # print ("Get data type:", type(xls_data))
-    sheet = xls_data['统计信息']
+    # sheet = xls_data['统计信息']
+    sheet = xls_data['1月下']
     notfound = 0
     count = 0
     ratio = 0
@@ -18,18 +20,21 @@ def read_file():
     errorlist = []
     output = OrderedDict()
     sheet_1 = []
-    row_1_data = ["房源信息", "标准价格", "计算价格", "误差","房源1(id,avg,address,floor,direction,square,height,built_year)","房源2","房源3","房源4","房源5"]  # 每一行的数据
+    row_1_data = ["房源信息","分词后", "标准价格", "计算价格", "误差","房源1(id,avg,address,floor,direction,square,height,built_year)","房源2","房源3","房源4","房源5","is住宅"]  # 每一行的数据
     sheet_1.append(row_1_data)
 
 
     # for each in range(1,len(sheet)):   正式测试的时候, 用这句话来替换
-    for each in range(200,300):
+    for each in range(1,len(sheet)):
         rawList = sheet[each]
-        if (rawList[1] != "住宅" ):
-            continue
+        print(rawList)
+        if (rawList[1] != '住宅' ):
+            isZhuzhai = 0
+        else:
+            isZhuzhai = 1
 
         list = [process_address(rawList[0]), rawList[3], "南", rawList[5], rawList[4], rawList[2]]
-
+        # print(list) 已经在searchMain中print了
         standard_price = float(rawList[6])
 
         base0 = base(list)
@@ -40,7 +45,7 @@ def read_file():
             print(" ............", list)
             print(expected_price)
             notfound += 1
-            missList.append([list,standard_price])
+            missList.append([rawList,list,standard_price,isZhuzhai])
             continue;
         else:
             error_ratio = float('%.2f' % (((expected_price - standard_price) / standard_price) * 100))
@@ -51,7 +56,7 @@ def read_file():
             print("*****************************")
             print("expected: ", expected_price, "; standard: ", standard_price, "; error ratio: ", error_ratio, ' %');
             print("*****************************\n")
-            sheet_1.append([str(list),str(standard_price),str(expected_price),str(abs(error_ratio)),str(SearchInformation[0]),str(SearchInformation[1]),str(SearchInformation[2]),str(SearchInformation[3]),str(SearchInformation[4])])
+            sheet_1.append([str(rawList),str(list),str(standard_price),str(expected_price),str(abs(error_ratio)),str(SearchInformation[0]),str(SearchInformation[1]),str(SearchInformation[2]),str(SearchInformation[3]),str(SearchInformation[4]),isZhuzhai])
     # print("*********************")
     # print("Missed:", notfound, "; Get:", count)
     # print("Average Ratio: ", ratio / count)
@@ -70,7 +75,7 @@ def read_file():
 
     # 成功&失败结果写入xls
     for each in missList:
-        sheet_1.append([str(each[0]),str(each[1]),"No Result",None,None,None,None,None,None])
+        sheet_1.append([str(each[0]),str(each[1]),str(each[2]),"No Result",None,None,None,None,None,None,isZhuzhai])
     output.update({"Sheet1": sheet_1})  # 添加sheet表
     save_data("Result.xls", output)
 
@@ -88,6 +93,9 @@ def draw_plot(errorlist):
 
 def process_address(raw):
     start = raw.index('区') + 1
+    if raw.find("街道") != -1:
+        start = raw.index("街道") + 2
+
     result = re.search(r'(.*)村[0-9]', raw[start:])
     if         result != None:
         string = result[0]

@@ -19,9 +19,10 @@ class base():
         if isinstance(avg_price, str):
             price = avg_price
         else:
-            modi = modification(avg_price,self.list)
-            expected_price = modi.run()
-            price = float('%.4f' % expected_price)
+            # modi = modification(avg_price,self.list)
+            # expected_price = modi.run()
+            # price = float('%.4f' % expected_price)
+            price = float('%.4f' % avg_price)
         print("Final Price = ",price)
         return price
 
@@ -42,7 +43,7 @@ class base():
 
 
     def get5Houses(self):
-        price = self.__run()
+        self.price = self.__run()
         fiveHouses = []
         for count in range(len(self.houses)) :
             if count >= 5:
@@ -50,6 +51,9 @@ class base():
             # List structure: [address[1], floor[4], maxfloor[6], aspect[7], square[2], comyear[8], avgprice[3]]
             fiveHouses.append([self.houses[count][1],self.houses[count][4],self.houses[count][6],self.houses[count][7],self.houses[count][2],self.houses[count][8],self.houses[count][3]])
         return fiveHouses
+
+    def getAvg(self):
+        return self.price
 
     def getSearchInformation(self):
         SearchInformation = [None,None,None,None,None]

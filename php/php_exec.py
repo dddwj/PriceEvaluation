@@ -7,10 +7,8 @@ from base import *
 
 
 element = sys.argv[1]
-print("GET Elements in Python!",element)
+print("Got Elements in Python!",element)
 # print(element)
-
-#
 # element = "西藏南路1739弄,10,南,103,34,2010"
 eles = element.split(',')
 base0 = base(eles)
