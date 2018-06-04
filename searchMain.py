@@ -7,7 +7,8 @@ class search_by_address():
 
     def getValue(self, list):
         self.Elements = list
-        print ("Inquiry List:",self.Elements)
+        # print ("Inquiry List:",str(self.Elements).encode('utf-8').decode('unicode_escape'))
+        print("Inquiry List:",self.Elements)
 
     def run(self, list):
         self.getValue(list)
@@ -64,6 +65,7 @@ class search_by_address():
         sum = 0
         count = 0
         for each in self.fangYuan:
+            #  【linux服务器上】print("each:",str(each).encode('utf-8'))
             print(each)
             #
             # modify each !!!
