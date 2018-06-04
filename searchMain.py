@@ -1,6 +1,9 @@
 # -*- coding: UTF-8 -*-
 
 import pymysql
+
+from modification import modification
+from mod1 import Mod1
 from searchNearby import *
 
 class search_by_address():
@@ -62,27 +65,58 @@ class search_by_address():
                 print("fangYuan Ready for Modification...\n" ,self.fangYuan)
 
         print("********Similar Houses********")
+        for each in self.fangYuan:
+            print(each)
+
+        print("********Start of Modification********")
+        sumOf5 = 0
         sum = 0
         count = 0
+        count1 = 0
         for each in self.fangYuan:
             #  【linux服务器上】print("each:",str(each).encode('utf-8'))
-            print(each)
-            #
-            # modify each !!!
-            # take average within modified price
-            # return average price
-            #
             sum += each[3]
             count += 1
             if count >= 6:
                 break
-        avg = float( sum / count )
+
+        avg = float(sum / count)
+
+        for each in self.fangYuan:
+            modi1 = Mod1(each, floor, avg)
+            modi1.run1()
+            sumOf5 += modi1.avgprice
+            #print(sumOf5) 测试是否成功
+            count1 += 1
+            if count1 >= 6:
+                break
+
+        avgOf5 = float(sumOf5 / count1)
+
+
+        # for each in self.fangYuan:
+        #     print(each)
+        #     print('~~~',sum)
+        # #     print(each[2])
+        #     modi1 = Mod1(each, floor, sum)
+        #     modi1.run1()
+        #     sum1 += modi1.avgprice
+        #     print(sum1)
+        #     count += 1
+        #     if count >= 6:
+        #         break
+        #
+        # avg= float(sum1 / count)
+        #     #price = mod1.run()
+
+
 
         conn.close()
         cursor.close()
-        print("********End of Modification********")
         print("Average Price:", avg)
-        return avg
+        print("Modified Price:", avgOf5)
+        print("********End of Modification********")
+        return avgOf5
 
 
 if __name__ == '__main__':
