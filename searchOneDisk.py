@@ -5,8 +5,8 @@ class search_by_disk:
     def __init__(self, diskName, address):
         self.HousingName = diskName
         self.address = address
-        self.conn = pymysql.connect(host='101.132.154.2', port=3306, user='housing', passwd='housing', db='housing',
-                                    charset='utf8')
+        # self.conn = pymysql.connect(host='101.132.154.2', port=3306, user='housing', passwd='housing', db='housing',charset='utf8')
+        self.conn = pymysql.connect(host='localhost', port=3306, user='housing', passwd='housing', db='housing',charset='utf8')
 
     def __getPlate(self):
         sql = "select PropertyID, plate,HousingName from Property where HousingName like %s;";

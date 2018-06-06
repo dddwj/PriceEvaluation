@@ -2,7 +2,7 @@
 
 import pymysql
 
-from modification import modification
+# from modification import modification
 from mod1 import Mod1
 from searchNearby import *
 
@@ -121,4 +121,4 @@ class search_by_address():
 
 if __name__ == '__main__':
     search = search_by_address()
-    search.run(['梅陇路华理苑', 2, '南', 103, 6, 2008])
+    search.run(['国安路355弄', 7, '南', 103.14, 7, 2016])

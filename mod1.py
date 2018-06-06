@@ -56,7 +56,7 @@ class Mod1():
         self.floor_para = 0
         self.floor_coe = 0
 
-        self.floor_para = 0.5*(int(self.house[4])-self.floor)
+        self.floor_para = 0.5*(int(self.house[4])-int(self.floor))
         self.floor_coe = 100/(100+self.floor_para)
         #print('floor coe of is', self.floor_coe)
 

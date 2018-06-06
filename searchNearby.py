@@ -11,7 +11,9 @@ class search_nearby:
         self.__run()
 
     def __run(self):
-        conn = pymysql.connect(host='101.132.154.2', port=3306, user='housing', passwd='housing', db='housing',
+        # conn = pymysql.connect(host='101.132.154.2', port=3306, user='housing', passwd='housing', db='housing',
+        #                        charset='utf8')
+        conn = pymysql.connect(host='localhost', port=3306, user='housing', passwd='housing', db='housing',
                                charset='utf8')
         # print("Connected To DB")
 
@@ -24,6 +26,12 @@ class search_nearby:
             self.nearbyAddress.append(self.address)
             return
         self.disk = temp[0]
+        if (str(self.disk).endswith('*')):
+            self.disk = self.disk[0:len(self.disk) - 1]
+        if (str(self.disk).endswith('期')):
+            self.disk = str(self.disk)[0:str(self.disk).index('期') - 1]
+        if (str(self.disk).__contains__('（')):
+            self.disk = str(self.disk)[0:str(self.disk).index('（') - 1]
         print("DiskName: ", self.disk)
 
         sbd = search_by_disk(self.disk,"")
@@ -50,11 +58,23 @@ class search_nearby:
         cursor.execute(sql, (diskLong,diskLati,diskLong,diskLati))
         temp = cursor.fetchall()
         self.nearbyAddress = []
+        diskcount = 0
         for count in range(1,cursor.rownumber):
-            if(count > 5):
+            if(diskcount > 4):
                 break
             else:
-                self.nearbyAddress.append(temp[count][2])
+                onedisk = str(temp[count][2])
+                if(onedisk.__contains__('镇')):
+                    onedisk = onedisk[onedisk.index('镇')+1:]
+                if(onedisk.__contains__('弄') and onedisk.__contains__('号')):
+                    onedisk = onedisk[0:onedisk.index('弄')+1]
+                if(onedisk.endswith('期')):
+                    onedisk = onedisk[0:onedisk.index('期')-1]
+                if(self.nearbyAddress.__contains__(onedisk)):
+                    continue;
+                else:
+                    self.nearbyAddress.append(onedisk)
+                    diskcount += 1
                 # print(temp[count])
         print("NearbyDisks: " ,self.nearbyAddress)
 
