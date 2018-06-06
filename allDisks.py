@@ -3,9 +3,9 @@ import pymysql
 
 from searchNearby import search_nearby
 
-# conn = pymysql.connect(host='101.132.154.2', port=3306, user='housing', passwd='housing', db='housing', charset='utf8')
-conn = pymysql.connect(host='localhost', port=3306, user='housing', passwd='housing', db='housing',charset='utf8')
-cursor = conn.cursor()
+conn = pymysql.connect(host='101.132.154.2', port=3306, user='housing', passwd='housing', db='housing', charset='utf8')
+# conn = pymysql.connect(host='localhost', port=3306, user='housing', passwd='housing', db='housing',charset='utf8')
+
 
 # try:
 #     except Exception as e:
@@ -15,9 +15,11 @@ cursor = conn.cursor()
 #     conn.close()
 
 visited = []
-for NewDiskID in range(192,193):
+for NewDiskID in range(18265,18268):
+    # 查看有没有这个NewDiskID, 若有，把它们所有地址加到待检索列表中。
     sql = "select RoadLaneNo from DiskAddress where NewDiskID = %s;"
-    cursor.execute(sql,NewDiskID)
+    cursor = conn.cursor()
+    cursor.execute(sql, NewDiskID)
     temp = cursor.fetchall()
     row = cursor.rowcount
     if row == 0:
@@ -26,9 +28,26 @@ for NewDiskID in range(192,193):
     for aRecord in temp:
         inquiryList.append(aRecord[0])
     # inquiryList = ["白杨路360弄"]
-    print("【NewDiskID: ",NewDiskID,"】 here",inquiryList)
+    print("【NewDiskID: ", NewDiskID, "】 here", inquiryList)
 
+    # 若不是公寓，则不处理
+    sql0 = "select NewDiskType,MainNewDiskType from NewDisk where NewDiskID = %s;"
+    cursor0 = conn.cursor()
+    cursor0.execute(sql0,NewDiskID)
+    temp0 = []
+    temp0 = cursor0.fetchone()
+        # print(temp0[0],temp0[1])
+    if temp0[1] != '公寓' and temp0[0] != '公寓':
+        print(NewDiskID,"Not a 公寓!\n\n\n\n")
+        continue
 
+    # 节约开销，房源不足五套时，在inquiryList中的地址只检索附近的房源一次。
+    if (visited.__contains__(NewDiskID)):
+        print("Visited, Continue!")
+        continue
+    visited.append(NewDiskID)
+
+    # 开始搜索同地址房源 及 附近房源
     allAveragePrice = []
     for anAddress in inquiryList:
         cursor2 = conn.cursor()
@@ -49,13 +68,9 @@ for NewDiskID in range(192,193):
             for each in result2:
                 allAveragePrice.append(each[0])
 
-        if (visited.__contains__(NewDiskID)):
-            print("Visited, Continue!")
-            continue
-        visited.append(NewDiskID)
 
         if ( row2 < 5 ):
-            print("...less than 5 resources...searching nearby...")
+            print(row2,"...less than 5 resources...searching nearby...")
             sn = search_nearby(anAddress)
             nearbyAddress = sn.getAddress()
             for aNearAddress in nearbyAddress:

@@ -11,10 +11,10 @@ class search_nearby:
         self.__run()
 
     def __run(self):
-        # conn = pymysql.connect(host='101.132.154.2', port=3306, user='housing', passwd='housing', db='housing',
-        #                        charset='utf8')
-        conn = pymysql.connect(host='localhost', port=3306, user='housing', passwd='housing', db='housing',
+        conn = pymysql.connect(host='101.132.154.2', port=3306, user='housing', passwd='housing', db='housing',
                                charset='utf8')
+        # conn = pymysql.connect(host='localhost', port=3306, user='housing', passwd='housing', db='housing',
+        #                        charset='utf8')
         # print("Connected To DB")
 
         cursor = conn.cursor()
