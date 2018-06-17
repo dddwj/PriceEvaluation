@@ -37,21 +37,21 @@ for NewDiskID in range(1,800):
         print("Cannot find such disk from NewDisk!")
         continue
         # print(temp0[0],temp0[1])
-    # if temp0[1] != '公寓' and temp0[0] != '公寓':
-    #     print(NewDiskID,"Not a 公寓!")
-    #     sql5 = "select BasePrice from BasePriceMarch_s where NewDiskID = %s;"
-    #     cursor5 = conn.cursor()
-    #     cursor5.execute(sql5, NewDiskID)
-    #     if(cursor5.rowcount != 0):
-    #         result5 = cursor5.fetchone()
-    #         basePrice5 = result5[0]
-    #         print("Got BasePrice from March...",basePrice5)
-    #         print("\n\n\n")
-    #         cursor6 = conn.cursor()
-    #         sql6 = "insert into BasePriceApril (NewDiskID,BasePrice) values(%s,%s)"
-    #         cursor6.execute(sql6, (NewDiskID, basePrice5))
-    #         conn.commit()
-    #     continue
+    if temp0[1] != '公寓' and temp0[0] != '公寓':
+        print(NewDiskID,"Not a 公寓!")
+        sql5 = "select BasePrice from BasePriceMarch_s where NewDiskID = %s;"
+        cursor5 = conn.cursor()
+        cursor5.execute(sql5, NewDiskID)
+        if(cursor5.rowcount != 0):
+            result5 = cursor5.fetchone()
+            basePrice5 = result5[0]
+            print("Got BasePrice from March...",basePrice5)
+            print("\n\n\n")
+            cursor6 = conn.cursor()
+            sql6 = "insert into BasePriceApril (NewDiskID,BasePrice) values(%s,%s)"
+            cursor6.execute(sql6, (NewDiskID, basePrice5))
+            conn.commit()
+        continue
 
     # 节约开销，房源不足五套时，在inquiryList中的地址只检索附近的房源一次。
     if (visited.__contains__(NewDiskID)):
@@ -100,7 +100,7 @@ for NewDiskID in range(1,800):
 
     print("**********************************")
     print(allAveragePrice)
-    print(allAveragePrice.__len__())
+    print("Resources Count:",allAveragePrice.__len__())
 
     count = 0
     sum = 0
@@ -116,7 +116,7 @@ for NewDiskID in range(1,800):
         sql7 = "select BasePrice from BasePriceMarch_s where NewDiskID = %s;"
         cursor7 = conn.cursor()
         cursor7.execute(sql7, NewDiskID)
-        if (cursor7.rowclunt != 0):
+        if (cursor7.rowcount != 0):
             result7 = cursor7.fetchone()
             basePrice = result7[0]
             print("*********************************")
