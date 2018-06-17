@@ -51,11 +51,11 @@ class search_nearby:
               "abs(Latitude-%s) as latit, sqrt(pow(abs(Longtitude-%s),2)+pow(abs(Latitude-%s),2)) as distance " \
               "from NewDisk, DiskAddress " \
               "where NewDisk.NewDiskID = DiskAddress.NewDiskID " \
-              "having longt < 150 and latit < 150 " \
+              "having longt < %s and latit < %s and distance > 0 " \
               "order by distance asc"
 
 
-        cursor.execute(sql, (diskLong,diskLati,diskLong,diskLati))
+        cursor.execute(sql, (diskLong,diskLati,diskLong,diskLati,150,150))
         temp = cursor.fetchall()
         self.nearbyAddress = []
         diskcount = 0
@@ -66,7 +66,7 @@ class search_nearby:
                 onedisk = str(temp[count][2])
                 if(onedisk.__contains__('镇')):
                     onedisk = onedisk[onedisk.index('镇')+1:]
-                if(onedisk.__contains__('弄') and onedisk.__contains__('号')):
+                if(onedisk.__contains__('弄') and (onedisk.__contains__('号') or onedisk.__contains__('幢'))):
                     onedisk = onedisk[0:onedisk.index('弄')+1]
                 if(onedisk.endswith('期')):
                     onedisk = onedisk[0:onedisk.index('期')-1]
@@ -76,6 +76,28 @@ class search_nearby:
                     self.nearbyAddress.append(onedisk)
                     diskcount += 1
                 # print(temp[count])
+        #   附近小区太少，再次检索更大范围的。
+        if diskcount < 5 :
+            print("Too few nearbyDisks. Enlarging the scope...")
+            cursor_more = conn.cursor()
+            cursor_more.execute(sql, (diskLong,diskLati,diskLong,diskLati,300,300))
+            for count in range(1, cursor.rownumber):
+                if (diskcount > 4):
+                    break
+                else:
+                    onedisk = str(temp[count][2])
+                    if (onedisk.__contains__('镇')):
+                        onedisk = onedisk[onedisk.index('镇') + 1:]
+                    if (onedisk.__contains__('弄') and (onedisk.__contains__('号') or onedisk.__contains__('幢'))):
+                        onedisk = onedisk[0:onedisk.index('弄') + 1]
+                    if (onedisk.endswith('期')):
+                        onedisk = onedisk[0:onedisk.index('期') - 1]
+                    if (self.nearbyAddress.__contains__(onedisk)):
+                        continue
+                    else:
+                        self.nearbyAddress.append(onedisk)
+                        diskcount += 1
+
         print("NearbyDisks: " ,self.nearbyAddress)
 
         # for each in nearbyAddress:

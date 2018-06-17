@@ -18,6 +18,22 @@ class search_by_address():
         conn = pymysql.connect(host='101.132.154.2',port=3306,user='housing',passwd='housing',db='housing',charset='utf8')
         # print("Connected To Database!")
 
+        # 获取基价
+        avg_base = None
+        address = self.Elements[0]
+        cursor0 = conn.cursor()
+        sql0 = "select BasePrice from BasePrice,DiskAddress where DiskAddress.NewDiskID = BasePrice.NewDiskID and RoadLaneNo like %s;"
+        cursor0.execute(sql0, address)
+        temp0 = cursor0.fetchone()
+        if( temp0 != None):
+            avg_base = temp0[0]
+            if(avg_base!= None):
+                print("Got BasePrice: ",avg_base)
+            else:
+                print("No BasePrice")
+        else:
+            print("No BasePrice of",address)
+
         cursor = conn.cursor()
         sql = "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201707 where address like %s having result<20.0 union " \
               "select id,address,square,avg,floor,total,height,direction,built_year,guapai_month,abs(square-%s) as result from guapai_201708 where address like %s having result<20.0 union " \
@@ -45,6 +61,7 @@ class search_by_address():
             print("Result Only Found:",self.fangYuan.__len__())
             print("Finding Nearby Disks...")
             sn = search_nearby(address)
+            backup = []
             for nearbyAddress in sn.getAddress():
                 cursor.execute(sql,(square, nearbyAddress+'%',square, nearbyAddress+'%',square, nearbyAddress+'%',square, nearbyAddress+'%',square, nearbyAddress+'%',square, nearbyAddress+'%',built_year))
                 # cursor.execute(sql,(square, nearbyAddress+'%',built_year))
@@ -55,8 +72,18 @@ class search_by_address():
                     self.fangYuan.append(each)
                     if(self.fangYuan.__len__() > 6):
                         break
+                backupResult = cursor.fetchmany(2)
+                for each in backupResult:
+                    backup.append(each)
+            if (self.fangYuan.__len__() < 5 ):
+                for each in backup:
+                    print("(Nearby):",each)
+                    self.fangYuan.append(each)
+                    if  self.fangYuan.__len__() > 6:
+                        break;
 
-            if self.fangYuan.__len__() == 0:
+
+            if self.fangYuan.__len__() == 0 and avg_base==None:
                 conn.close()
                 cursor.close()
                 print("No Result!")
@@ -73,25 +100,29 @@ class search_by_address():
         sum = 0
         count = 0
         count1 = 0
-        for each in self.fangYuan:
-            #  【linux服务器上】print("each:",str(each).encode('utf-8'))
-            sum += each[3]
-            count += 1
-            if count >= 6:
-                break
+        if (avg_base != None):
+            avg = avg_base
+        else:
+            for each in self.fangYuan:
+                #  【linux服务器上】print("each:",str(each).encode('utf-8'))
+                sum += each[3]
+                count += 1
+                if count >= 6:
+                    break
+            avg = float(sum / count)
 
-        avg = float(sum / count)
-
-        for each in self.fangYuan:
-            modi1 = Mod1(each, floor, avg)
-            modi1.run1()
-            sumOf5 += modi1.avgprice
-            #print(sumOf5) 测试是否成功
-            count1 += 1
-            if count1 >= 6:
-                break
-
-        avgOf5 = float(sumOf5 / count1)
+        if self.fangYuan.__len__() == 0:
+            avgOf5 =avg_base
+        else:
+            for each in self.fangYuan:
+                modi1 = Mod1(each, floor, avg)
+                modi1.run1()
+                sumOf5 += modi1.avgprice
+                #print(sumOf5) 测试是否成功
+                count1 += 1
+                if count1 >= 6:
+                    break
+            avgOf5 = float(sumOf5 / count1)
 
 
         # for each in self.fangYuan:
@@ -121,4 +152,4 @@ class search_by_address():
 
 if __name__ == '__main__':
     search = search_by_address()
-    search.run(['国安路355弄', 7, '南', 103.14, 7, 2016])
+    search.run(['陆家嘴东路161号', 7, '南', 103.14, 7, 2016])

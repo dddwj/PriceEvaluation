@@ -12,7 +12,7 @@ def read_file():
     xls_data = get_data(r"楼盘基价_201801.xlsx")
     # print ("Get data type:", type(xls_data))
     # sheet = xls_data['统计信息']
-    sheet = xls_data['1月下']
+    sheet = xls_data['1月上']
     notfound = 0
     count = 0
     ratio = 0
@@ -22,10 +22,12 @@ def read_file():
     sheet_1 = []
     row_1_data = ["房源信息","分词后", "标准价格", "计算价格", "误差","房源1(id,avg,address,floor,direction,square,height,built_year)","房源2","房源3","房源4","房源5","is住宅"]  # 每一行的数据
     sheet_1.append(row_1_data)
-
+    countToPrint = 0
 
     # for each in range(1,len(sheet)):   正式测试的时候, 用这句话来替换
     for each in range(1,len(sheet)):
+        countToPrint += 1
+        print("Here is Number:",countToPrint)
         rawList = sheet[each]
         print(rawList)
         if (rawList[1] != '住宅' ):

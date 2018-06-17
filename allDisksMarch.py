@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# 计算三月份的所有小区的基价，利用同地址房源检索+附近小区房源检索来计算。
 import pymysql
 
 from searchNearby import search_nearby
@@ -15,7 +16,7 @@ conn = pymysql.connect(host='101.132.154.2', port=3306, user='housing', passwd='
 #     conn.close()
 
 visited = []
-for NewDiskID in range(18265,18268):
+for NewDiskID in range(17640,17641):
     # 查看有没有这个NewDiskID, 若有，把它们所有地址加到待检索列表中。
     sql = "select RoadLaneNo from DiskAddress where NewDiskID = %s;"
     cursor = conn.cursor()
@@ -26,7 +27,12 @@ for NewDiskID in range(18265,18268):
         continue
     inquiryList = []
     for aRecord in temp:
-        inquiryList.append(aRecord[0])
+        oneRecord = str(aRecord[0])
+        if(oneRecord.__contains__('弄') and (oneRecord.__contains__('号') or oneRecord.__contains__('幢'))):
+            oneRecord = oneRecord[0:oneRecord.index('弄')+1]
+        if(inquiryList.__contains__(oneRecord)):
+            continue
+        inquiryList.append(oneRecord)
     # inquiryList = ["白杨路360弄"]
     print("【NewDiskID: ", NewDiskID, "】 here", inquiryList)
 
@@ -36,6 +42,9 @@ for NewDiskID in range(18265,18268):
     cursor0.execute(sql0,NewDiskID)
     temp0 = []
     temp0 = cursor0.fetchone()
+    if temp0 == None:
+        print("Cannot find such disk from NewDisk!\n\n\n\n")
+        continue
         # print(temp0[0],temp0[1])
     if temp0[1] != '公寓' and temp0[0] != '公寓':
         print(NewDiskID,"Not a 公寓!\n\n\n\n")
