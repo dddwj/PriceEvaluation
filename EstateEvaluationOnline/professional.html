@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>专家版 · 在线房产估价系统</title>
+    <meta charset="utf-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/templatemo-style.css">
+    <link rel="stylesheet" href="css/mycss.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <style> body {background: url("img/new_letter_bg_01.png"); background-size: cover; }</style>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/button/component.css" />
+    <script src="js/myjs.js" type="text/javascript"></script>
+    <!--<script src="js/bootstrap.min.js"></script>-->
+</head>
+
+
+
+
+<body>
+<header class="sticky-top fixed-top">
+    <nav class="navbar navbar-expand-md bg-dark" role="navigation" >
+        <a class="navbar-brand" href="index.html" >
+            <img src="resources/logo.png" alt="Logo" style="width:125px">
+        </a>
+
+        <!--缩小页面时展示导航栏-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse my-2 mr-2 sticky-top" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+
+                <!-- Dropdown -->
+                <li class="ml-2 nav-item my-navibutton  text-center" >
+                    <a class="nav-link dropdown-toggle raise " href="index.html" id="navbardrop" data-toggle="dropdown">开始估价!</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item " href="elementary.html" style="font-size: larger">基础版</a>
+                        <a class="dropdown-item " href="professional.html" style="font-size: larger">专家版</a>
+                    </div>
+                </li>
+
+                <li class="ml-2 nav-item my-navibutton raise" >
+                    <a class="nav-link" href="introduction.html" >功能介绍</a>
+                </li>
+                <li class="ml-2 nav-item my-navibutton raise" >
+                    <a class="nav-link" href="http://144.168.62.45" >关于我</a>
+                </li>
+            </ul>
+
+            <form class="form-inline">
+                <input class="my-form-control col-auto mr-2" type="text" placeholder="你想知道什么?" aria-label="Search"
+                       style="text-align: center;" required/>
+                <button class="btn my-form-control  offset " type="submit">搜索</button>
+            </form>
+        </div>
+    </nav>
+</header>
+<!--<div id="particles-js"></div>-->
+
+
+
+<div class="container  align-content-center ">
+    <div class="h2 text-center mb-3" style=" color: #80bdff">
+        <br>
+        <!--<h2 class="">欢迎使用</h2>-->
+        <!--<h2>在线房产估价系统 · 基础版</h2>-->
+        <h2></h2><h2></h2>
+        <!--按钮涟漪效果-->
+        <div style="height: 0; width: 0; position: absolute; visibility: hidden;" aria-hidden="true">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" focusable="false">
+                <symbol id="ripply-scott" viewBox="0 0 100 100">
+                    <circle id="ripple-shape" cx="1" cy="1" r="1" />
+                </symbol>
+            </svg>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="container  align-content-center" style="background-color: rgba(243, 250, 245, 0.22) !important; border-radius: 2.0rem;" >
+    <br>
+    <div class="form-section ">
+        <div class="text-center mb-5">
+            <div class="row ml-5">
+                <div class="col-1" style="padding-top: 10px">
+                    <a class="" href="index.html" >
+                        <img src="resources/goBack.png" alt="goBack" style="width:60px">
+                    </a>
+                </div>
+                <div class="col-9 mr-2">
+                    <h1>
+                        请填写以下信息...
+                    </h1>
+                </div>
+                <div class="col-1 " style="padding-top: 10px">
+                    <h3>
+                    </h3>
+                </div>
+
+            </div>
+        </div>
+
+
+        <form class="form-horizontal" action="pleasewait.html" method="post">
+            <div class="row ml-5 mr-5 mb-5" style="width:100%;">
+                <div class="" >
+                    <label for="address" style="/*text-align: right; width:100%;*/">省市</label>
+                    <div class="input-group-prepend ">
+                        <span class="my-input-group-text">上海市</span>
+                    </div>
+                </div>
+
+                <div class="col-2" >
+                    <label for="state">区县</label>
+                    <select class="custom-select"  style="height:60px; background-color:#e9ecef;" id="state" required="" align="right" required/>
+                    <option value="">请选择...</option>
+                    <option>黄浦区</option>
+                    <option>卢湾区</option>
+                    <option>徐汇区</option>
+                    <option>奉贤区</option>
+                    </select>
+                </div>
+
+                <div class="col-8" style="padding-right: 50px;">
+                    <label for="address">小区<span style="font-weight: bold;font-size:larger; ">地址</span></label>
+                    <input type="text" class="form-control" id="address" placeholder="例如：西藏南路1739弄..." required/>
+                </div>
+                <br>
+            </div>
+
+            <div class="ml-5 mr-5 " style="">
+                <label for="address" style="/*text-align: right; width:100%;*/">房源<span style="font-weight: bold;font-size:larger; ">面积</span></label>
+                    <div class="row input-group col-12">
+                        <input type="number" class="form-control justify-content-center " id="square" placeholder="请在此输入面积..." value=""
+                               style="height: 55%" required/>
+                        <span class="my-input-group-text">㎡</span>
+                    </div>
+                <br>
+            </div>
+
+            <div class=" ml-5 mr-5 " style="">
+                <label for="address" style="/*text-align: right; width:100%;*/"><span style="font-weight: bold;font-size:larger; ">楼层</span>信息</label>
+                <div class="row input-group col-12">
+                    <input type="number" class="form-control justify-content-center col-6" id="floor" placeholder="房源所在楼层" value=""
+                           style="height: 55%" required/>
+                    <span class="my-input-group-text">楼</span>
+                    <input type="number" class="form-control justify-content-center col-6" id="maxfloor" placeholder="总楼层" value=""
+                           style="height: 55%" required/>
+                    <span class="my-input-group-text">楼</span>
+                </div>
+                <div class="input-group col-6">
+
+                </div>
+                <br>
+            </div>
+
+            <div class="ml-5  mr-5 " style="">
+                <label>建造<span style="font-weight: bold;font-size:larger; ">年份</span></label>
+                <div class="input-group col-12 row">
+                    <input type="number" class="form-control justify-content-center" id="year" placeholder="请输入年份(可不填)..." value=""
+                           style="height: 55%" />
+                    <span class="my-input-group-text">年</span>
+                </div>
+                <br>
+            </div>
+
+            <div class=" ml-5 mr-5  " style="">
+                <div  style="padding-bottom: 10px;"><span style="font-weight: bold;font-size:larger; ">朝向</span>信息</div>
+                <div class="btn-group" data-toggle="buttons">
+                    <button type="button" class="btn btn-secondary" name="options" id="option1"
+                            style="height:80%; font-size: larger;padding-left: 30px; padding-right: 30px; padding-top: 20px; padding-bottom: 20px;">
+                        东
+                    </button>
+                    <button type="button" class="btn btn-secondary" name="options" id="option2"
+                            style="height:80%; font-size: larger;padding-left: 30px; padding-right: 30px; padding-top: 20px; padding-bottom: 20px;">
+                        南
+                    </button>
+                    <button type="button" class="btn btn-secondary" name="options" id="option3"
+                            style="height:80%; font-size: larger;padding-left: 30px; padding-right: 30px; padding-top: 20px; padding-bottom: 20px;">
+                        西
+                    </button>
+                    <button type="button" class="btn btn-secondary" name="options" id="option4"
+                            style="height:80%; font-size: larger;padding-left: 30px; padding-right: 30px; padding-top: 20px; padding-bottom: 20px;">
+                        北
+                    </button>
+                </div>
+                <br><br><br>
+            </div>
+
+
+            <div class="row ml-5 mr-5">
+                <button type="submit" class="btn-primary btn-lg  button" style="height: 60px; width:100%; background-color: rgba(73,86,92,0.75);
+                border-color: rgba(73,86,92,0.75); " id="js-ripple-btn">开始估价!
+                    <svg class="ripple-obj" id="js-ripple">
+                        <use height="100" width="100" xlink:href="#ripply-scott" class="js-ripple"></use>
+                    </svg>
+                </button>
+            </div>
+        </form>
+        <br><br>
+    </div>
+</div>
+
+
+
+<div class="text-center my-2">
+    <p class="tm-social-icons-container text-xs-center">
+        <a href="http://mp.weixin.qq.com" class="tm-social-link"><i class="fa fa-wechat"></i></a>
+        <a href="#" class="tm-social-link"><i class="fa fa-weibo"></i></a>
+        <a href="#" class="tm-social-link"><i class="fa fa-facebook"></i></a>
+        <a href="https://github.com/dddwj" class="tm-social-link"><i class="fa fa-github"></i></a>
+    </p>
+    <p>Copyright © 2018 董文杰  <a href="http://144.168.62.45" target="_blank" title="Personal Website">👉个人主页👈</a> </p>
+</div>
+
+
+
+
+</body>
+
+
+<script src="js/button/TweenMax.min.js"></script>
+<script src="js/button/ripple-config.js"></script>
+
+<!--<script type="text/javascript" src="js/particles.js"></script>-->
+<!--<script type="text/javascript" src="js/app.js"></script>-->
+
+</html>

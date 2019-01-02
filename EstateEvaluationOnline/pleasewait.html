@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>估价中... · 在线房产估价系统</title>
+    <meta charset="utf-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/templatemo-style.css">
+    <link rel="stylesheet" href="css/mycss.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <style> body {background: slategray;}</style>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <!--<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>-->
+    <script src="js/bootstrap.min.js"></script>
+    <!--<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="css/button/component.css" />
+    <script src="js/myjs.js" type="text/javascript"></script>
+    <!--<script src="js/bootstrap.min.js"></script>-->
+</head>
+
+
+
+
+<body>
+<header class="sticky-top fixed-top">
+    <nav class="navbar navbar-expand-md bg-dark" role="navigation" >
+        <a class="navbar-brand" href="index.html" >
+            <img src="resources/logo.png" alt="Logo" style="width:125px">
+        </a>
+
+        <!--缩小页面时展示导航栏-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse my-2 mr-2 sticky-top" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+
+                <!-- Dropdown -->
+                <li class="ml-2 nav-item my-navibutton  " >
+                    <a class="nav-link dropdown-toggle raise " href="index.html" id="navbardrop" data-toggle="dropdown">开始估价!</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item " href="elementary.html" style="font-size: larger">基础版</a>
+                        <a class="dropdown-item " href="professional.html" style="font-size: larger">专家版</a>
+                    </div>
+                </li>
+
+                <li class="ml-2 nav-item my-navibutton raise" >
+                    <a class="nav-link" href="introduction.html" >功能介绍</a>
+                </li>
+                <li class="ml-2 nav-item my-navibutton raise" >
+                    <a class="nav-link" href="http://144.168.62.45" >关于我</a>
+                </li>
+            </ul>
+
+            <form class="form-inline">
+                <input class="my-form-control col-auto mr-2" type="text" placeholder="你想知道什么?" aria-label="Search"
+                       style="text-align: center;" required/>
+                <button class="btn my-form-control  offset " type="submit">搜索</button>
+            </form>
+        </div>
+    </nav>
+</header>
+<div id="particles-js"></div>
+<ul class="cb-slideshow">
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+
+
+
+<div class="container  align-content-center ">
+    <div class="h2 text-center mb-3" style=" color: #80bdff">
+        <br><br>
+        <!--<h2 class="">欢迎使用</h2>-->
+        <!--<h2>在线房产估价系统 · 基础版</h2>-->
+        <h2></h2><h2></h2>
+        <br>
+        <!--按钮涟漪效果-->
+        <div style="height: 0; width: 0; position: absolute; visibility: hidden;" aria-hidden="true">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" focusable="false">
+                <symbol id="ripply-scott" viewBox="0 0 100 100">
+                    <circle id="ripple-shape" cx="1" cy="1" r="1" />
+                </symbol>
+            </svg>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="container sticky-top align-content-center text-center" style="background-color: rgba(243, 250, 245, 0.22) !important; border-radius: 2.0rem;" >
+    <br>
+    <h1>谢谢你提供的信息!</h1>
+    <br>
+    <img src="resources/timg_gif.gif" alt="loading" style="width:75px; height: 75px" >
+    <br><br>
+    <div class="h2" style="color: greenyellow">正在估价中... ...
+        <span id="f1">剩余时间: 8s</span>
+
+    </div>
+
+    <br><br>
+
+
+    <script type="text/javascript">
+        var i = 8;//定义倒计时的总时间为5s
+        var xx = window.setInterval(tt, 1000);
+        function tt(){
+            i--;
+            document.getElementById('f1').innerHTML ="剩余时间: "+ i + 's';
+            if(i == 0){
+                window.clearInterval(xx);
+                window.location.href = "resultpage.html";
+
+
+            }
+        }
+    </script>
+
+</div>
+</div>
+
+
+
+<div class="footer-link my-2">
+    <p class="tm-social-icons-container text-xs-center">
+        <a href="http://mp.weixin.qq.com" class="tm-social-link"><i class="fa fa-wechat"></i></a>
+        <a href="#" class="tm-social-link"><i class="fa fa-weibo"></i></a>
+        <a href="#" class="tm-social-link"><i class="fa fa-facebook"></i></a>
+        <a href="https://github.com/dddwj" class="tm-social-link"><i class="fa fa-github"></i></a>
+    </p>
+    <p>Copyright © 2018 董文杰  <a href="http://144.168.62.45" target="_blank" title="Personal Website">👉个人主页👈</a> </p>
+</div>
+
+
+
+
+</body>
+
+
+<script src="js/button/TweenMax.min.js"></script>
+<script src="js/button/ripple-config.js"></script>
+
+<script type="text/javascript" src="js/particles.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+
+</html>

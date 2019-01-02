@@ -5,8 +5,7 @@ from searchOneDisk import search_by_disk
 class search_plate:
     def __init__(self,address):
         self.address = address
-        self.conn = pymysql.connect(host='101.132.154.2', port=3306, user='housing', passwd='housing', db='housing',
-                               charset='utf8')
+        self.conn = pymysql.connect(host='101.132.154.2', port=3306, user='housing', passwd='housing', db='housing', charset='utf8')
 
 
 

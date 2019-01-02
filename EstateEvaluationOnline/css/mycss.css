@@ -1,0 +1,40 @@
+.my-form-control {
+    color: #FFFFFF;
+    border-radius: .5rem;
+    background-color: transparent;
+    border: 1px solid #FFFFFF;
+    font-size: 1.2rem;
+    /*font-weight: 300;*/
+    padding: 0.75rem 1.2rem;
+}
+
+.my-navibutton{
+    color: #FFFFFF;
+    border-radius: .5rem;
+    background-color: rgba(243, 250, 245, 0.10) !important;
+    /*border: 1px solid #FFFFFF;*/
+    font-size: 1.2rem;
+    font-weight: 200;
+    padding: 0.5rem 0.75rem;
+}
+
+.my-input-group-text {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: .375rem 1rem;
+    margin-bottom: 0;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: right;
+    white-space: nowrap;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    height: 55px;
+}
+
+

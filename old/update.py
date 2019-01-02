@@ -5,8 +5,8 @@ import pymysql
 conn = pymysql.connect(host='101.132.154.2', port=3306, user='housing', passwd='housing', db='housing', charset='utf8')
 for NewDiskID in range(0,22488):
     cursor = conn.cursor()
-    sql = "select BasePrice.NewDiskID,NewDiskName,BasePrice from BasePrice, NewDisk " \
-          "where NewDisk.NewDiskID = %s and BasePrice.NewDiskID = NewDisk.NewDiskID;"
+    sql = "select BasePriceApril.NewDiskID,NewDisk.NewDiskName,BasePrice from BasePriceApril, NewDisk " \
+          "where NewDisk.NewDiskID = %s and BasePriceApril.NewDiskID = NewDisk.NewDiskID;"
     cursor.execute(sql,NewDiskID);
     result = cursor.fetchone()
     if (result == None):
